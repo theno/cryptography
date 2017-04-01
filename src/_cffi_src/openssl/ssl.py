@@ -144,6 +144,17 @@ static const long TLSEXT_STATUSTYPE_ocsp;
 typedef ... SSL_CIPHER;
 typedef ... Cryptography_STACK_OF_SSL_CIPHER;
 typedef ... COMP_METHOD;
+
+typedef int (*custom_ext_add_cb) (SSL *s, unsigned int ext_type,
+                                  const unsigned char **out,
+                                  size_t *outlen, int *al, void *add_arg);
+
+typedef void (*custom_ext_free_cb) (SSL *s, unsigned int ext_type,
+                                    const unsigned char *out, void *add_arg);
+
+typedef int (*custom_ext_parse_cb) (SSL *s, unsigned int ext_type,
+                                    const unsigned char *in,
+                                    size_t inlen, int *al, void *parse_arg);
 """
 
 FUNCTIONS = """
@@ -231,6 +242,10 @@ void SSL_CTX_set_client_CA_list(SSL_CTX *, Cryptography_STACK_OF_X509_NAME *);
 
 void SSL_CTX_set_info_callback(SSL_CTX *, void (*)(const SSL *, int, int));
 void (*SSL_CTX_get_info_callback(SSL_CTX *))(const SSL *, int, int);
+
+int SSL_CTX_add_client_custom_ext(SSL_CTX *, unsigned int, custom_ext_add_cb,
+                                  custom_ext_free_cb, void *,
+                                  custom_ext_parse_cb, void *);
 
 /*  SSL_SESSION */
 void SSL_SESSION_free(SSL_SESSION *);
