@@ -64,7 +64,7 @@ BIO *BIO_push(BIO *, BIO *);
 BIO *BIO_pop(BIO *);
 BIO *BIO_next(BIO *);
 BIO *BIO_find_type(BIO *, int);
-BIO *BIO_new_connect(const char *);
+BIO *BIO_new_ssl_connect(SSL_CTX *ctx);
 BIO *BIO_new_file(const char *, const char *);
 BIO *BIO_new_fp(FILE *, int);
 BIO *BIO_new_fd(int, int);
